@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const App = () => {
   const [selectedCrop, setSelectedCrop] = useState('黒大豆');
-  const [area, setArea] = useState('');
+  const [area, setArea] = useState({});
   const [results, setResults] = useState({});
   const [useFertilizer, setUseFertilizer] = useState(false);
 
@@ -84,6 +84,7 @@ const App = () => {
       const calculatedYield = area * selectedMultiplier;
       setResults({ ...results, [selectedCrop]: calculatedYield });
       setArea(''); // フィールドをクリア
+      setArea({ ...area, area}  );
     } else {
       setResults({ ...results, [selectedCrop]: '選択した作物に対する収穫量係数が見つかりません' });
     }
@@ -141,7 +142,26 @@ const App = () => {
       >
         {useFertilizer ? '肥料代を含む' : '肥料代を引く'}
       </button>
+
+    <div className="flex flex-col ml-4">
+        {/* <h2 className="text-2xl font-semibold">選択された作物の数値:</h2>
+        {Object.entries(useFertilizer ? cropYieldMultiplier2[selectedCrop] : cropYieldMultiplier[selectedCrop]).map(([key, value]) => (
+          <p key={key} className=''>
+            {key}: {value}
+          </p>
+        ))} */}
+
+        <h2 className="text-2xl font-semibold mt-4">計算された数値:</h2>
+        {Object.entries(results).map(([crop, value]) => (
+          <p key={crop}>
+            {crop}: {value} 円
+          </p>
+        ))}
+
+
+      </div>
     </div>
+    
 
       </>
   );
